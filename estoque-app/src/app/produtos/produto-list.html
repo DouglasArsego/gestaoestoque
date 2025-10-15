@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2>Lista de Produtos</h2>
+
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Buscar por nome..." [(ngModel)]="filtro" />
+  </div>
+
+  <a routerLink="/produtos/novo" class="btn btn-primary mb-3">Novo Produto</a>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produto of produtos | filtro:filtro">
+        <td>{{ produto.nome }}</td>
+        <td>{{ produto.descricao }}</td>
+        <td>R$ {{ produto.preco | number:'1.2-2' }}</td>
+        <td>{{ produto.quantidade }}</td>
+        <td>
+          <a [routerLink]="['/produtos/editar', produto.id]" class="btn btn-sm btn-warning">Editar</a>
+          <button (click)="excluir(produto.id!)" class="btn btn-sm btn-danger">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

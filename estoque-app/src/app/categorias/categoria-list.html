@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h2>Lista de Categorias</h2>
+
+  <a routerLink="/categorias/novo" class="btn btn-primary mb-3">Nova Categoria</a>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let categoria of categorias">
+        <td>{{ categoria.nome }}</td>
+        <td>
+          <a [routerLink]="['/categorias/editar', categoria.id]" class="btn btn-sm btn-warning">Editar</a>
+          <button (click)="excluir(categoria.id!)" class="btn btn-sm btn-danger">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
