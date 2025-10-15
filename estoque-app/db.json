@@ -4,16 +4,16 @@
       "nome": "Teclado",
       "descricao": "Teclado mecânico RGB",
       "preco": 150,
-      "quantidade": 10,
+      "quantidade": 6,
       "categoriaId": 1,
       "id": "1"
     },
     {
-      "id": "ea47",
+      "id": "c03f",
       "nome": "Mouse",
-      "descricao": "Mouse Logitec sem fio",
+      "descricao": "Mouse Logitec",
       "preco": 200,
-      "quantidade": 5,
+      "quantidade": 13,
       "categoriaId": "1"
     }
   ],
@@ -21,6 +21,33 @@
     {
       "id": "1",
       "nome": "Periféricos"
+    },
+    {
+      "id": "3381",
+      "nome": "Hardware"
+    }
+  ],
+  "movimentacoes": [
+    {
+      "id": 1,
+      "tipo": "entrada",
+      "produtoId": 1,
+      "quantidade": 5,
+      "data": "2025-10-15"
+    },
+    {
+      "id": "3646",
+      "tipo": "saida",
+      "produtoId": "1",
+      "quantidade": 5,
+      "data": "2025-10-15"
+    },
+    {
+      "id": "828a",
+      "tipo": "entrada",
+      "produtoId": "c03f",
+      "quantidade": 3,
+      "data": "2025-10-15"
     }
   ]
 }
