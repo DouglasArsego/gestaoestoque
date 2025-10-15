@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h2>Registrar Movimentação</h2>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="mb-3">
+      <label>Tipo</label>
+      <select class="form-select" formControlName="tipo">
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saída</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Produto</label>
+      <select class="form-select" formControlName="produtoId">
+        <option [ngValue]="null">Selecione</option>
+        <option *ngFor="let produto of produtos" [value]="produto.id">
+          {{ produto.nome }} (Estoque: {{ produto.quantidade }})
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Quantidade</label>
+      <input type="number" class="form-control" formControlName="quantidade" />
+    </div>
+
+    <div class="mb-3">
+      <label>Data</label>
+      <input type="date" class="form-control" formControlName="data" />
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Salvar</button>
+    <a routerLink="/movimentacoes" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>

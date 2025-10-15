@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h2>Histórico de Movimentações</h2>
+
+  <a routerLink="/movimentacoes/nova" class="btn btn-primary mb-3">Nova Movimentação</a>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Tipo</th>
+        <th>Quantidade</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mov of movimentacoes">
+        <td>{{ getNomeProduto(mov.produtoId) }}</td>
+        <td>{{ mov.tipo === 'entrada' ? 'Entrada' : 'Saída' }}</td>
+        <td>{{ mov.quantidade }}</td>
+        <td>{{ mov.data }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
