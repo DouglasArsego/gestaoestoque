@@ -1,17 +1,25 @@
 {
   "produtos": [
     {
-      "id": 1,
       "nome": "Teclado",
       "descricao": "Teclado mecânico RGB",
       "preco": 150,
       "quantidade": 10,
-      "categoriaId": 1
+      "categoriaId": 1,
+      "id": "1"
+    },
+    {
+      "id": "ea47",
+      "nome": "Mouse",
+      "descricao": "Mouse Logitec sem fio",
+      "preco": 200,
+      "quantidade": 5,
+      "categoriaId": "1"
     }
   ],
   "categorias": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Periféricos"
     }
   ]

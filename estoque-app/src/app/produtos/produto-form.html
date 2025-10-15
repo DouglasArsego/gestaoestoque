@@ -1,1 +1,36 @@
-<p>produto-form works!</p>
+<div class="container mt-4">
+  <h2>{{ id ? 'Editar Produto' : 'Novo Produto' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="mb-3">
+      <label>Nome</label>
+      <input type="text" class="form-control" formControlName="nome" />
+    </div>
+
+    <div class="mb-3">
+      <label>Descrição</label>
+      <textarea class="form-control" formControlName="descricao"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Preço</label>
+      <input type="number" class="form-control" formControlName="preco" />
+    </div>
+
+    <div class="mb-3">
+      <label>Quantidade</label>
+      <input type="number" class="form-control" formControlName="quantidade" />
+    </div>
+
+    <div class="mb-3">
+      <label>Categoria</label>
+      <select class="form-select" formControlName="categoriaId">
+        <option [ngValue]="null">Selecione</option>
+        <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nome }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Salvar</button>
+    <a routerLink="/produtos" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>

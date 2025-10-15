@@ -1,1 +1,13 @@
-<p>categoria-form works!</p>
+<div class="container mt-4">
+  <h2>{{ id ? 'Editar Categoria' : 'Nova Categoria' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="mb-3">
+      <label>Nome</label>
+      <input type="text" class="form-control" formControlName="nome" />
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Salvar</button>
+    <a routerLink="/categorias" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
