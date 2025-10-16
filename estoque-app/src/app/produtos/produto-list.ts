@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Produto, ProdutoService } from './produto';
 import { FiltroPipe } from '../shared/filtro-pipe';
+import { Categoria, CategoriaService } from '../categorias/categoria';
 
 @Component({
   selector: 'app-produto-list',
@@ -13,10 +14,14 @@ import { FiltroPipe } from '../shared/filtro-pipe';
 })
 export class ProdutoList {
   private produtoService = inject(ProdutoService);
+  private categoriaService = inject(CategoriaService);
+
   produtos: Produto[] = [];
+  categorias: Categoria[] = [];
   filtro = '';
 
   constructor() {
+    this.carregarCategorias();
     this.carregarProdutos();
   }
 
@@ -24,6 +29,17 @@ export class ProdutoList {
     this.produtoService.listar().subscribe((dados) => {
       this.produtos = dados;
     });
+  }
+
+  carregarCategorias() {
+    this.categoriaService.listar().subscribe((dados) => {
+      this.categorias = dados;
+    });
+  }
+
+  nomeCategoria(id: number): string {
+    const categoria = this.categorias.find(c => c.id === id);
+    return categoria ? categoria.nome : '—';
   }
 
   excluir(id: number) {

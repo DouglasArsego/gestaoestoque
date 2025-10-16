@@ -15,6 +15,30 @@
       "preco": 200,
       "quantidade": 13,
       "categoriaId": "1"
+    },
+    {
+      "nome": "Headset",
+      "descricao": "Headset Gamer Hyperx",
+      "preco": 300,
+      "quantidade": 3,
+      "categoriaId": "1",
+      "id": "5f39"
+    },
+    {
+      "id": "7777",
+      "nome": "Placa de Video",
+      "descricao": "RTX 5060",
+      "preco": 2500,
+      "quantidade": 2,
+      "categoriaId": "3381"
+    },
+    {
+      "id": "0232",
+      "nome": "Memoria Ram",
+      "descricao": "Memoria Kingston 3200Mhz",
+      "preco": 200,
+      "quantidade": 4,
+      "categoriaId": "3381"
     }
   ],
   "categorias": [
@@ -25,11 +49,15 @@
     {
       "id": "3381",
       "nome": "Hardware"
+    },
+    {
+      "id": "9383",
+      "nome": "Computadores"
     }
   ],
   "movimentacoes": [
     {
-      "id": 1,
+      "id": "1",
       "tipo": "entrada",
       "produtoId": 1,
       "quantidade": 5,
@@ -48,6 +76,20 @@
       "produtoId": "c03f",
       "quantidade": 3,
       "data": "2025-10-15"
+    },
+    {
+      "id": "c4f6",
+      "tipo": "saida",
+      "produtoId": "5f39",
+      "quantidade": 2,
+      "data": "2025-10-16"
+    },
+    {
+      "id": "3eb6",
+      "tipo": "saida",
+      "produtoId": "0232",
+      "quantidade": 2,
+      "data": "2025-10-16"
     }
   ]
 }
