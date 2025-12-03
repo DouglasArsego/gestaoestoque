@@ -1,41 +1,88 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { supabase } from '../supabase.client';
 
 export interface Produto {
-  id?: number;
+  id?: string;           // IDs no Supabase são texto
   nome: string;
   descricao: string;
   preco: number;
   quantidade: number;
-  categoriaId: number;
+  categoriaId: string;   // Também texto
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
-  private readonly API = 'http://localhost:3000/produtos';
-
-  constructor(private http: HttpClient) {}
 
   listar(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(this.API);
+    return from(
+      supabase
+        .from('produtos')
+        .select('*')
+        .order('nome', { ascending: true })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? []) as Produto[];
+        })
+    );
   }
 
-  buscarPorId(id: number): Observable<Produto> {
-    return this.http.get<Produto>(`${this.API}/${id}`);
+  buscarPorId(id: string): Observable<Produto | null> {
+    return from(
+      supabase
+        .from('produtos')
+        .select('*')
+        .eq('id', id)
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Produto | null;
+        })
+    );
   }
 
-  criar(produto: Produto): Observable<Produto> {
-    return this.http.post<Produto>(this.API, produto);
+  criar(produto: Produto): Observable<Produto | null> {
+    return from(
+      supabase
+        .from('produtos')
+        .insert([produto])
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Produto | null;
+        })
+    );
   }
 
-  atualizar(id: number, produto: Produto): Observable<Produto> {
-    return this.http.put<Produto>(`${this.API}/${id}`, produto);
+  atualizar(id: string, produto: Produto): Observable<Produto | null> {
+    return from(
+      supabase
+        .from('produtos')
+        .update(produto)
+        .eq('id', id)
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Produto | null;
+        })
+    );
   }
 
-  deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${id}`);
+  deletar(id: string): Observable<void> {
+    return from(
+      supabase
+        .from('produtos')
+        .delete()
+        .eq('id', id)
+        .then(({ error }) => {
+          if (error) throw error;
+          return;
+        })
+    );
   }
 }

@@ -31,7 +31,7 @@ export class MovimentacaoList implements OnInit {
     });
   }
 
-  getNomeProduto(id: number): string {
+  getNomeProduto(id: string): string {
     const produto = this.produtos.find(p => p.id === id);
     return produto ? produto.nome : 'Produto não encontrado';
   }

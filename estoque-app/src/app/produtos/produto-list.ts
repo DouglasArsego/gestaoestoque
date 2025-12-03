@@ -37,12 +37,12 @@ export class ProdutoList {
     });
   }
 
-  nomeCategoria(id: number): string {
+  nomeCategoria(id: string): string {
     const categoria = this.categorias.find(c => c.id === id);
     return categoria ? categoria.nome : '—';
   }
 
-  excluir(id: number) {
+  excluir(id: string) {
     if (confirm('Tem certeza que deseja excluir este produto?')) {
       this.produtoService.deletar(id).subscribe(() => {
         this.carregarProdutos();

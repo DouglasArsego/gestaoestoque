@@ -1,3 +1,4 @@
+
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,7 +18,7 @@ export class CategoriaForm implements OnInit {
   private router = inject(Router);
 
   form!: FormGroup;
-  id?: number;
+  id?: string;
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -27,7 +28,9 @@ export class CategoriaForm implements OnInit {
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
       this.categoriaService.buscarPorId(this.id).subscribe(categoria => {
-        this.form.patchValue(categoria);
+        if (categoria) {
+          this.form.patchValue(categoria);
+        }
       });
     }
   }

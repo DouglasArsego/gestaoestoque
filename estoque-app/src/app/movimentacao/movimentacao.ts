@@ -1,40 +1,116 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { supabase } from '../supabase.client';
 
 export interface Movimentacao {
-  id?: number;
+  id?: string;                 // ← antes: number
   tipo: 'entrada' | 'saida';
-  produtoId: number;
+  produtoId: string;           // ← antes: number
   quantidade: number;
-  data: string;
+  data: string;                // armazenando como string (ISO), Supabase aceita 'date'
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovimentacaoService {
-  private readonly API = 'http://localhost:3000/movimentacoes';
-
-  constructor(private http: HttpClient) {}
 
   listar(): Observable<Movimentacao[]> {
-    return this.http.get<Movimentacao[]>(this.API);
+    return from(
+      supabase
+        .from('movimentacoes')
+        .select('*')
+        .order('data', { ascending: false })     // opcional: ordenar por data (mais recentes primeiro)
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? []) as Movimentacao[];
+        })
+    );
   }
 
-  buscarPorId(id: number): Observable<Movimentacao> {
-    return this.http.get<Movimentacao>(`${this.API}/${id}`);
+  buscarPorId(id: string): Observable<Movimentacao | null> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .select('*')
+        .eq('id', id)
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Movimentacao | null;
+        })
+    );
   }
 
-  criar(movimentacao: Movimentacao): Observable<Movimentacao> {
-    return this.http.post<Movimentacao>(this.API, movimentacao);
+  criar(movimentacao: Movimentacao): Observable<Movimentacao | null> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .insert([movimentacao])
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Movimentacao | null;
+        })
+    );
   }
 
-  atualizar(id: number, movimentacao: Movimentacao): Observable<Movimentacao> {
-    return this.http.put<Movimentacao>(`${this.API}/${id}`, movimentacao);
+  atualizar(id: string, movimentacao: Movimentacao): Observable<Movimentacao | null> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .update(movimentacao)
+        .eq('id', id)
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Movimentacao | null;
+        })
+    );
   }
 
-  deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${id}`);
+  deletar(id: string): Observable<void> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .delete()
+        .eq('id', id)
+        .then(({ error }) => {
+          if (error) throw error;
+          return;
+        })
+    );
+  }
+
+  // (Opcional) Filtros que talvez você já use na lista:
+  listarPorProduto(produtoId: string): Observable<Movimentacao[]> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .select('*')
+        .eq('produtoId', produtoId)
+        .order('data', { ascending: false })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? []) as Movimentacao[];
+        })
+    );
+  }
+
+  listarPorTipo(tipo: 'entrada' | 'saida'): Observable<Movimentacao[]> {
+    return from(
+      supabase
+        .from('movimentacoes')
+        .select('*')
+        .eq('tipo', tipo)
+        .order('data', { ascending: false })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? []) as Movimentacao[];
+        })
+    );
   }
 }

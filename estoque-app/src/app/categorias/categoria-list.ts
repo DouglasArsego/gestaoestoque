@@ -1,3 +1,4 @@
+
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -23,7 +24,7 @@ export class CategoriaList {
     });
   }
 
-  excluir(id: number) {
+  excluir(id: string) {
     if (confirm('Tem certeza que deseja excluir esta categoria?')) {
       this.categoriaService.deletar(id).subscribe(() => {
         this.carregarCategorias();

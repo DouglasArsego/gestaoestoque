@@ -13,7 +13,7 @@
       "nome": "Mouse",
       "descricao": "Mouse Logitec",
       "preco": 200,
-      "quantidade": 13,
+      "quantidade": 10,
       "categoriaId": "1"
     },
     {
@@ -53,6 +53,10 @@
     {
       "id": "9383",
       "nome": "Computadores"
+    },
+    {
+      "id": "e982",
+      "nome": "Smarthphones"
     }
   ],
   "movimentacoes": [
@@ -89,6 +93,13 @@
       "tipo": "saida",
       "produtoId": "0232",
       "quantidade": 2,
+      "data": "2025-10-16"
+    },
+    {
+      "id": "7bcf",
+      "tipo": "saida",
+      "produtoId": "c03f",
+      "quantidade": 3,
       "data": "2025-10-16"
     }
   ]

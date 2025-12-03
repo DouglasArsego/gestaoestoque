@@ -1,3 +1,4 @@
+
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,7 +21,7 @@ export class ProdutoForm implements OnInit {
 
   form!: FormGroup;
   categorias: Categoria[] = [];
-  id?: number;
+  id?: string; // ← antes era number
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -33,10 +34,12 @@ export class ProdutoForm implements OnInit {
 
     this.categoriaService.listar().subscribe(categorias => this.categorias = categorias);
 
-    this.id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id']; // ← agora é string
     if (this.id) {
       this.produtoService.buscarPorId(this.id).subscribe(produto => {
-        this.form.patchValue(produto);
+        if (produto) {
+          this.form.patchValue(produto);
+        }
       });
     }
   }

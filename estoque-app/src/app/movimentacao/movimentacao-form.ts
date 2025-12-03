@@ -23,8 +23,10 @@ export class MovimentacaoForm implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       tipo: ['entrada', Validators.required],
+      // produtoId deve ser string (id do produto no Supabase)
       produtoId: [null, Validators.required],
       quantidade: [1, [Validators.required, Validators.min(1)]],
+      // string no formato YYYY-MM-DD (compatível com Supabase 'date')
       data: [new Date().toISOString().substring(0, 10), Validators.required]
     });
 
@@ -36,29 +38,46 @@ export class MovimentacaoForm implements OnInit {
 
     const movimentacao: Movimentacao = this.form.value;
 
-    // Atualiza o produto
+    // Encontrar o produto pelo id (string)
     const produto = this.produtos.find(p => p.id === movimentacao.produtoId);
     if (!produto) {
       alert('Produto não encontrado!');
       return;
     }
 
+    // Ajuste de quantidade local (mantendo a lógica atual)
+    const q = Number(movimentacao.quantidade) || 0;
     if (movimentacao.tipo === 'entrada') {
-      produto.quantidade += movimentacao.quantidade;
+      produto.quantidade = Number(produto.quantidade) + q;
     } else {
-      if (produto.quantidade < movimentacao.quantidade) {
+      if (Number(produto.quantidade) < q) {
         alert('Quantidade insuficiente em estoque!');
         return;
       }
-      produto.quantidade -= movimentacao.quantidade;
+      produto.quantidade = Number(produto.quantidade) - q;
     }
 
     // Atualiza o produto e salva a movimentação
-    this.produtoService.atualizar(produto.id!, produto).subscribe(() => {
-      this.movimentacaoService.criar(movimentacao).subscribe(() => {
-        alert('Movimentação registrada com sucesso!');
-        this.router.navigate(['/movimentacoes']);
-      });
+    // Observação: produto.id é string no Supabase
+    this.produtoService.atualizar(produto.id!, produto).subscribe({
+      next: () => {
+        this.movimentacaoService.criar(movimentacao).subscribe({
+          next: () => {
+            alert('Movimentação registrada com sucesso!');
+            this.router.navigate(['/movimentacoes']);
+          },
+          error: (err) => {
+            // Se a criação da movimentação falhar, você pode querer reverter o ajuste local.
+            // Para manter alteração mínima, apenas informamos o erro.
+            console.error(err);
+            alert('Erro ao registrar movimentação.');
+          }
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Erro ao atualizar o produto.');
+      }
     });
   }
 }

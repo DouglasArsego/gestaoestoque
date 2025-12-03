@@ -1,9 +1,10 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { supabase } from '../supabase.client';
 
 export interface Categoria {
-  id?: number;
+  id?: string;  // IDs no Supabase são texto
   nome: string;
 }
 
@@ -11,27 +12,73 @@ export interface Categoria {
   providedIn: 'root'
 })
 export class CategoriaService {
-  private readonly API = 'http://localhost:3000/categorias';
-
-  constructor(private http: HttpClient) {}
 
   listar(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.API);
+    return from(
+      supabase
+        .from('categorias')
+        .select('*')
+        .order('nome', { ascending: true })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? []) as Categoria[];
+        })
+    );
   }
 
-  buscarPorId(id: number): Observable<Categoria> {
-    return this.http.get<Categoria>(`${this.API}/${id}`);
+  buscarPorId(id: string): Observable<Categoria | null> {
+    return from(
+      supabase
+        .from('categorias')
+        .select('*')
+        .eq('id', id)
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Categoria | null;
+        })
+    );
   }
 
-  criar(categoria: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(this.API, categoria);
+  criar(categoria: Categoria): Observable<Categoria | null> {
+    return from(
+      supabase
+        .from('categorias')
+        .insert([categoria])
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Categoria | null;
+        })
+    );
   }
 
-  atualizar(id: number, categoria: Categoria): Observable<Categoria> {
-    return this.http.put<Categoria>(`${this.API}/${id}`, categoria);
+  atualizar(id: string, categoria: Categoria): Observable<Categoria | null> {
+    return from(
+      supabase
+        .from('categorias')
+        .update(categoria)
+        .eq('id', id)
+        .select()
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          return (data ?? null) as Categoria | null;
+        })
+    );
   }
 
-  deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API}/${id}`);
+  deletar(id: string): Observable<void> {
+    return from(
+      supabase
+        .from('categorias')
+        .delete()
+        .eq('id', id)
+        .then(({ error }) => {
+          if (error) throw error;
+          return;
+        })
+    );
   }
 }
