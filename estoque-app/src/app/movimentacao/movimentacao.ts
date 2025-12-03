@@ -8,7 +8,7 @@ export interface Movimentacao {
   tipo: 'entrada' | 'saida';
   produtoId: string;           // ← antes: number
   quantidade: number;
-  data: string;                // armazenando como string (ISO), Supabase aceita 'date'
+  data: string;              
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ export class MovimentacaoService {
       supabase
         .from('movimentacoes')
         .select('*')
-        .order('data', { ascending: false })     // opcional: ordenar por data (mais recentes primeiro)
+        .order('data', { ascending: false })     
         .then(({ data, error }) => {
           if (error) throw error;
           return (data ?? []) as Movimentacao[];
@@ -85,7 +85,7 @@ export class MovimentacaoService {
     );
   }
 
-  // (Opcional) Filtros que talvez você já use na lista:
+  
   listarPorProduto(produtoId: string): Observable<Movimentacao[]> {
     return from(
       supabase
