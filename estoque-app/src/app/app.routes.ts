@@ -16,11 +16,11 @@ export const routes: Routes = [
   { path: 'produtos', component: ProdutoList, canActivate: [authGuard] },
   { path: 'produtos/novo', component: ProdutoForm, canActivate: [authGuard] },
   { path: 'produtos/:id', component: ProdutoForm, canActivate: [authGuard] },
-  { path: 'categorias', component : CategoriaList },
-  { path: 'categorias/novo', component : CategoriaForm },
-  { path: 'categorias/editar/:id', component : CategoriaForm },
-  { path: 'movimentacoes', component: MovimentacaoList },
-  { path: 'movimentacoes/nova', component: MovimentacaoForm },
+  { path: 'categorias', component : CategoriaList, canActivate: [authGuard] },
+  { path: 'categorias/novo', component : CategoriaForm, canActivate: [authGuard] },
+  { path: 'categorias/editar/:id', component : CategoriaForm, canActivate: [authGuard] },
+  { path: 'movimentacoes', component: MovimentacaoList, canActivate: [authGuard] },
+  { path: 'movimentacoes/nova', component: MovimentacaoForm, canActivate: [authGuard] },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/callback', component: AuthCallbackComponent }
 
