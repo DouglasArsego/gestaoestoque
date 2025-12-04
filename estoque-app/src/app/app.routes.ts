@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'produtos', pathMatch: 'full' },
   { path: 'produtos', component: ProdutoList, canActivate: [authGuard] },
   { path: 'produtos/novo', component: ProdutoForm, canActivate: [authGuard] },
-  { path: 'produtos/:id', component: ProdutoForm, canActivate: [authGuard] },
+  { path: 'produtos/editar/:id', component: ProdutoForm, canActivate: [authGuard] },
   { path: 'categorias', component : CategoriaList, canActivate: [authGuard] },
   { path: 'categorias/novo', component : CategoriaForm, canActivate: [authGuard] },
   { path: 'categorias/editar/:id', component : CategoriaForm, canActivate: [authGuard] },
