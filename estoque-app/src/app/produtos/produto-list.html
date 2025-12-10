@@ -21,13 +21,27 @@
     <tbody>
       <tr *ngFor="let produto of produtos | filtro:filtro">
         <td>{{ produto.nome }}</td>
+        
         <td>{{ produto.descricao }}</td>
         <td>R$ {{ produto.preco | number:'1.2-2' }}</td>
         <td>{{ produto.quantidade }}</td>
         <td>{{ nomeCategoria(produto.categoriaId) }}</td>
+
         <td>
           <a [routerLink]="['/produtos/editar', produto.id]" class="btn btn-sm btn-warning">Editar</a>
           <button (click)="excluir(produto.id!)" class="btn btn-sm btn-danger">Excluir</button>
+
+          <button class="btn btn-sm btn-info" (click)="abrirInputArquivo(produto.id)">
+            Adicionar Imagem
+          </button>
+
+          <input 
+            type="file"
+            #fileInput
+            accept="image/*"
+            style="display: none"
+            (change)="uploadImagem($event, produto.id)"
+          >
         </td>
       </tr>
     </tbody>
