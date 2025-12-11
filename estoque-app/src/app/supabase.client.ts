@@ -9,4 +9,3 @@ export const supabase = createClient(environment.supabaseUrl, environment.supaba
         detectSessionInUrl: true,
     }
 });
-
